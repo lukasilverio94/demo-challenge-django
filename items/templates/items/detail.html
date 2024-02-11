@@ -1,0 +1,21 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
+    <title>{{ item.title }} - Listing API</title>
+</head>
+<body class="w-full max-w-6xl m-auto p-8">
+    <h1 class="text-4xl my-6">{{ item.title }}</h1>
+    <p>{{ item.description }}</p>
+    <p class="text-3xl">{{ item.price }}</p>
+    <p>Location: {{ item.location }}</p>
+    <p>Created at: {{ item.created_at }}</p>
+    <small>By: {{ item.created_by }}</small>
+    <br>
+    <!-- Add any other details you want to display -->
+    <a href="{% url 'core:index' %}" class="text-red-700 mt-3"><--Back to items</a>
+</body>
+</html>

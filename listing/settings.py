@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'listing',
+    'items',
+
     'rest_framework',
     'tailwind',
     'theme',
