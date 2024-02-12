@@ -7,10 +7,13 @@ from .forms import NewItemForm, EditItemForm
 
 def items(request):
     query = request.GET.get('query', '')
-    items = Item.objects.filter(is_sold=False)
+    items = Item.objects.all()
 
     if query:
         items = items.filter(name__icontains=query)
+
+    # Order the items by the created_at field in descending order (newest first)
+    items = items.order_by('-created_at')
 
     return render(request, 'items/items.html', {
         'items': items,
@@ -33,7 +36,7 @@ def new(request):
             item.created_by = request.user
             item.save()
 
-            return redirect('/', pk=item.id)
+            return redirect('items:detail', pk=item.id)
     else:
         form = NewItemForm()
 
@@ -48,16 +51,16 @@ def edit(request, pk):
     item = get_object_or_404(Item, pk=pk)
 
     if request.method == 'POST':
-        form = EditItemForm(request.POST, request.FILES, instance=item)
+        form = EditItemForm(request.POST, instance=item)
 
         if form.is_valid():
             form.save()
 
-            return redirect('item:detail', pk=item.id)
+            return redirect('items:detail', pk=item.id)
     else:
         form = EditItemForm(instance=item)
 
-    return render(request, 'item/form.html', {
+    return render(request, 'items/form.html', {
         'form': form,
         'title': 'Edit item',
     })
@@ -65,8 +68,7 @@ def edit(request, pk):
 
 @login_required
 def delete(request, pk):
-    pass
-    # item = get_object_or_404(Item, pk=pk)
-    # item.delete()
+    item = get_object_or_404(Item, pk=pk)
+    item.delete()
 
-    # return redirect('dashboard:index')
+    return redirect('core:index')

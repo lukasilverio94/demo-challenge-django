@@ -8,14 +8,24 @@
     <title>{{ item.title }} - Listing API</title>
 </head>
 <body class="w-full max-w-6xl m-auto p-8">
-    <h1 class="text-4xl my-6">{{ item.title }}</h1>
-    <p>{{ item.description }}</p>
-    <p class="text-3xl">{{ item.price }}</p>
-    <p>Location: {{ item.location }}</p>
-    <p>Created at: {{ item.created_at }}</p>
-    <small>By: {{ item.created_by }}</small>
-    <br>
-    <!-- Add any other details you want to display -->
-    <a href="{% url 'core:index' %}" class="text-red-700 mt-3"><--Back to items</a>
+    <div class="w-full max-w-[300px] border-2 border-gray-500 rounded-md p-3">
+
+        
+        <h1 class="text-4xl my-6">{{ item.title }}</h1>
+        <p>{{ item.description }}</p>
+        <p class="text-3xl">{{ item.price }}</p>
+        <p>Location: {{ item.location }}</p>
+        <p>Created at: {{ item.created_at }}</p>
+        <div class="flex justify-between items-center">
+            <small>By: {{ item.created_by }}</small>
+            {% if request.user == item.created_by %}
+            <a href="{% url 'items:delete' item.id %}" class="ms-12 bg-red-700 text-white px-3 py-1 rounded-md ">Delete</a>
+            <a href="{% url 'items:edit' item.id %}" class="ms-12 bg-teal-700 text-white px-3 py-1 rounded-md ">Edit</a>
+            {% endif %}
+        </div>
+        <br>
+        <!-- Add any other details you want to display -->
+        <a href="{% url 'core:index' %}" class="text-slate-500 mt-3 "><--Back to items</a>
+    </div>
 </body>
 </html>

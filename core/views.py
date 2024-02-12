@@ -5,8 +5,9 @@ from .forms import SignUpForm
 
 def index(request):
     items = Item.objects.all()
+    ordered_items = items.order_by('-created_at')
     return render(request, 'core/index.html', {
-        'items': items
+        'items': ordered_items
     })
 
 
